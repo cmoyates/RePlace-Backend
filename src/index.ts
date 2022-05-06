@@ -10,15 +10,17 @@ app.get("/", (_: Request, res: Response) => {
 })
 
 const PORT: number = 5000;
+const WIDTH: number = 64;
+const HEIGHT: number = 36;
 
 let server = app.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
 
 
 let grid: string[][] = [];
 
-for (let x = 0; x < 40; x++) {
+for (let x = 0; x < WIDTH; x++) {
   let gridCol: string[] = [];
-  for (let y = 0; y < 30; y++) {
+  for (let y = 0; y < HEIGHT; y++) {
     gridCol.push("#ffffff");
   }
   grid.push(gridCol);
