@@ -40,5 +40,7 @@ io.on("connection", socket => {
   socket.on("place-pixel", (pos, color) => {
     console.log(`Pixel (${pos.x}, ${pos.y}) has been set to: ${color}`);
     grid[pos.x][pos.y] = color;
+
+    socket.broadcast.emit("pixel-placed-by-user", pos, color);
   })
 });
