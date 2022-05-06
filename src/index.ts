@@ -14,6 +14,17 @@ const PORT: number = 5000;
 let server = app.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
 
 
+let grid: string[][] = [];
+
+for (let x = 0; x < 40; x++) {
+  let gridCol: string[] = [];
+  for (let y = 0; y < 30; y++) {
+    gridCol.push("#0000ff");
+  }
+  grid.push(gridCol);
+}
+
+
 const io = new Server(server,  {
   cors: {
     origin: ["http://localhost:8080"],
@@ -23,10 +34,11 @@ const io = new Server(server,  {
 });
 
 io.on("connection", socket => {
-  console.log(socket.id);
+  console.log(`User connected with id: ${socket.id}`);
+  io.to(socket.id).emit("init", grid);
 
   socket.on("place-pixel", (pos, color) => {
-    console.log(pos);
-    console.log(color);
+    console.log(`Pixel (${pos.x}, ${pos.y}) has been set to: ${color}`);
+    grid[pos.x][pos.y] = color;
   })
 });
