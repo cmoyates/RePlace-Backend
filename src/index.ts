@@ -19,7 +19,7 @@ let grid: string[][] = [];
 for (let x = 0; x < 40; x++) {
   let gridCol: string[] = [];
   for (let y = 0; y < 30; y++) {
-    gridCol.push("#0000ff");
+    gridCol.push("#ffffff");
   }
   grid.push(gridCol);
 }
