@@ -9,7 +9,7 @@ app.get("/", (_: Request, res: Response) => {
   res.send("The server is running!");
 })
 
-const PORT: number = 5000;
+const PORT: number = process.env.PORT ? parseInt(process.env.PORT) : 5000;
 const WIDTH: number = 64;
 const HEIGHT: number = 36;
 
