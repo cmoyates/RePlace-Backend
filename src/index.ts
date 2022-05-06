@@ -29,7 +29,7 @@ for (let x = 0; x < WIDTH; x++) {
 
 const io = new Server(server,  {
   cors: {
-    origin: ["http://localhost:8080"],
+    origin: "*",
     methods: ["GET", "POST"],
     credentials: true,
   }
