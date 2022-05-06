@@ -25,7 +25,8 @@ const io = new Server(server,  {
 io.on("connection", socket => {
   console.log(socket.id);
 
-  socket.on("test-event", () => {
-    console.log("test");
+  socket.on("place-pixel", (pos, color) => {
+    console.log(pos);
+    console.log(color);
   })
 });
