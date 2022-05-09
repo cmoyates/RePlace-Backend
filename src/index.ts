@@ -64,7 +64,6 @@ io.on("connection", socket => {
     console.log(`Pixel (${pos.x}, ${pos.y}) has been set to: ${color}`);
     localGrid.colors[pos.x][pos.y] = color;
     localGrid.markModified('colors');
-    console.log(localGrid);
     socket.broadcast.emit("pixel-placed-by-user", pos, color);
   })
 });
