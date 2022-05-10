@@ -1,7 +1,6 @@
 import express from "express";
 import { Application, Request, Response } from "express";
 import { Server } from "socket.io";
-import "./db";
 import Grid, {IGrid} from "./grid";
 import mongoose from "mongoose";
 import db from "./db";
@@ -65,7 +64,7 @@ Grid.findOne({}).then(function (foundGrid: (IGrid & { _id: any; }) | null) {
     })
   });
 
-  
+
   process.on('SIGINT', () => {
     localGrid.save().then(() => {
       console.log("Grid saved");
