@@ -12,7 +12,7 @@ const HEIGHT: number = 36;
 
 let localGrid: IGrid;
 
-Grid.findOne({}, function (err: any, foundGrid: IGrid) {
+Grid.findOne({}).then(function (foundGrid: (IGrid & { _id: any; }) | null) {
   if (foundGrid === null) {
     let colorArray: string[][] = [];
     for (let x = 0; x < WIDTH; x++) {
@@ -35,43 +35,42 @@ Grid.findOne({}, function (err: any, foundGrid: IGrid) {
     localGrid = foundGrid;
     console.log("Loaded Grid");
   }
-});
+}).then(() => {
+  const app: Application = express();
 
-
-const app: Application = express();
-
-app.get("/", (_: Request, res: Response) => {
-  res.send("The server is running!");
-})
-
-let server = app.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
-
-
-
-const io = new Server(server,  {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-    credentials: true,
-  }
-});
-
-io.on("connection", socket => {
-  console.log(`User connected with id: ${socket.id}`);
-  io.to(socket.id).emit("init", localGrid.colors);
-
-  socket.on("place-pixel", async (pos, color) => {
-    console.log(`Pixel (${pos.x}, ${pos.y}) has been set to: ${color}`);
-    localGrid.colors[pos.x][pos.y] = color;
-    localGrid.markModified('colors');
-    socket.broadcast.emit("pixel-placed-by-user", pos, color);
+  app.get("/", (_: Request, res: Response) => {
+    res.send("The server is running!");
   })
-});
 
-process.on('SIGINT', () => {
-  localGrid.save().then(() => {
-    console.log("Grid saved");
-    db.close();
-    server.close();
+  let server = app.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
+
+
+  const io = new Server(server,  {
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST"],
+      credentials: true,
+    }
+  });
+
+  io.on("connection", socket => {
+    console.log(`User connected with id: ${socket.id}`);
+    io.to(socket.id).emit("init", localGrid.colors);
+
+    socket.on("place-pixel", async (pos, color) => {
+      console.log(`Pixel (${pos.x}, ${pos.y}) has been set to: ${color}`);
+      localGrid.colors[pos.x][pos.y] = color;
+      localGrid.markModified('colors');
+      socket.broadcast.emit("pixel-placed-by-user", pos, color);
+    })
+  });
+
+  
+  process.on('SIGINT', () => {
+    localGrid.save().then(() => {
+      console.log("Grid saved");
+      db.close();
+      server.close();
+    });
   });
 });
