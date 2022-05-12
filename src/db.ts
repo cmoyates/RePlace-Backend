@@ -17,7 +17,6 @@ const envPopulated: boolean = process.env.MONGO_USERNAME !== undefined && proces
 const uri = envPopulated 
   ? `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}.mongodb.net/RePlace` 
   : "mongodb://localhost/RePlace";
-console.log(uri);
 mongoose.connect(uri, MONGO_OPTIONS);
 const db = mongoose.connection;
 

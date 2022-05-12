@@ -65,11 +65,15 @@ Grid.findOne({}).then(function (foundGrid: (IGrid & { _id: any; }) | null) {
   });
 
 
-  process.on('SIGINT', () => {
+  const gracefulShutdown = () => {
     localGrid.save().then(() => {
       console.log("Grid saved");
       db.close();
       server.close();
+      process.exit(0);
     });
-  });
+  };
+
+  process.on('SIGINT', () => gracefulShutdown());
+  process.on('SIGTERM', () => gracefulShutdown());
 });
