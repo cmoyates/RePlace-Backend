@@ -69,6 +69,8 @@ Grid.findOne({}).then(function (foundGrid: (IGrid & { _id: any; }) | null) {
 
     // Whenever anyone places a pixel
     socket.on("place-pixel", async (pos, color) => {
+      // Error checking
+      if (pos.x >= WIDTH || pos.x < 0 || pos.y >= HEIGHT || pos.y < 0) return;
       console.log(`Pixel (${pos.x}, ${pos.y}) has been set to: ${color}`);
       // Update the local color grid
       localGrid.colors[pos.x][pos.y] = color;
