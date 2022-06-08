@@ -3,7 +3,7 @@ import { Application, Request, Response } from "express";
 import { Server } from "socket.io";
 import Grid, {IGrid} from "./grid";
 import mongoose from "mongoose";
-import db from "./db";
+import "./db";
 
 // Constants
 const PORT: number = process.env.PORT ? parseInt(process.env.PORT) : 5000;
@@ -73,26 +73,10 @@ Grid.findOne({}).then(function (foundGrid: (IGrid & { _id: any; }) | null) {
       // Update the local color grid
       localGrid.colors[pos.x][pos.y] = color;
       localGrid.markModified('colors');
+      // Save the current color grid to the database
+      localGrid.save();
       // Let the other users know that it was placed
       socket.broadcast.emit("pixel-placed-by-user", pos, color);
     })
   });
-
-  // Function called when the server is shutting down
-  const gracefulShutdown = () => {
-    // Save the current color grid to the database
-    localGrid.save().then(() => {
-      console.log("Grid saved");
-      // Close the database connection
-      db.close();
-      // Close the server
-      server.close();
-      // Exit the process
-      process.exit(0);
-    });
-  };
-
-  // Call that function whenever the server is shutdown with 'SIGINT' or 'SIGTERM'
-  process.on('SIGINT', () => gracefulShutdown());
-  process.on('SIGTERM', () => gracefulShutdown());
 });
