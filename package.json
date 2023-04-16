@@ -1,38 +1,27 @@
 {
-  "name": "server",
+  "name": "replace-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "./lib/index.js",
+  "description": "This is the backend for my remake of [r/Place](https://www.reddit.com/r/place/).",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node build/index.js",
-    "dev": "nodemon src/index.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "dev": "nodemon src/index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "@types/express": "^4.17.13",
-    "@types/node": "^17.0.31",
-    "@types/socket.io": "^3.0.2",
-    "nodemon": "^2.0.16",
-    "rimraf": "^3.0.2",
-    "ts-node": "^10.7.0",
-    "typescript": "^4.6.4"
-  },
-  "files": [
-    "es",
-    "lib"
-  ],
-  "types": "./lib/index.d.ts",
-  "jsnext:main": "./es/index.js",
-  "module": "./es/index.js",
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.0",
-    "express": "^4.18.1",
-    "mongoose": "^6.3.2",
-    "socket.io": "^4.5.0"
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "ioredis": "^5.3.1",
+    "socket.io": "^4.6.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^18.15.11",
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
   }
 }
