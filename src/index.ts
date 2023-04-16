@@ -112,5 +112,9 @@ redis
           console.log(`Pixel (${pos.x}, ${pos.y}) has been set to: ${color}`);
         }
       );
+
+      socket.on("disconnect", () => {
+        console.log(`User disconnected with id: ${socket.id}`);
+      });
     });
   });
